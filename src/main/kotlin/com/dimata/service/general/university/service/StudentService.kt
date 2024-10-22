@@ -3,6 +3,7 @@ package com.dimata.service.general.university.service
 import com.dimata.service.general.university.model.request.StudentRequestBody
 import com.dimata.service.general.university.model.response.StudentResponse
 import com.dimata.service.general.university.repository.StudentRepository
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id
 import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
@@ -22,4 +23,24 @@ class StudentService(
         }
     }
 
+    fun update(studentId : String, body : StudentRequestBody) : StudentResponse {
+        try {
+            studentRepository.update(studentId, body)
+            return StudentResponse(
+                studentId = studentId,
+                name = body.name,
+                identityId = body.identityId
+            );
+        }catch (e : Exception){
+            throw RuntimeException(e);
+        }
+    }
+
+    fun delete(name: String){
+        try {
+             studentRepository.delete(name)
+        }catch (e : Exception){
+            throw  RuntimeException(e);
+        }
+    }
 }

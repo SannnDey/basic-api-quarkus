@@ -10,12 +10,23 @@ import jakarta.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
 class StudentRepository : JooqRepository() {
-    fun getAll() : List<StudentResponse> = jooq.selectFrom(STUDENT).fetchInto(StudentResponse::class.java)
+    fun getAll(): List<StudentResponse> = jooq.selectFrom(STUDENT).fetchInto(StudentResponse::class.java)
 
-    fun create(body : StudentRequestBody) = jooq.newRecord(
-        STUDENT,body
+    fun create(body: StudentRequestBody) = jooq.newRecord(
+        STUDENT, body
     ).also {
         it.studentId = UuidCreator.getTimeOrderedEpoch().toString()
         it.store();
     };
+
+    fun update(studentId: String, body: StudentRequestBody) = jooq.update(STUDENT)
+        .set(STUDENT.NAME, body.name)
+        .set(STUDENT.IDENTITY_ID, body.identityId)
+        .where(STUDENT.STUDENT_ID.eq(studentId))
+        .execute()
+
+
+    fun delete(name: String) = jooq.delete(STUDENT)
+        .where(STUDENT.NAME.eq(name))
+        .execute()
 }

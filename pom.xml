@@ -19,8 +19,8 @@
 
         <!--  Custom var here      -->
         <db-name>university</db-name>
-        <db-user>admin</db-user>
-        <db-pass>admin</db-pass>
+        <db-user>root</db-user>
+        <db-pass>root</db-pass>
         <db-url>jdbc:mysql://localhost:3306/${db-name}</db-url>
         <config-group>com.dimata.service.general.university</config-group>
 
